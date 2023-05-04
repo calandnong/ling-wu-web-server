@@ -4,12 +4,22 @@
   "description": "",
   "main": ".eslintrc.js",
   "devDependencies": {
+    "@commitlint/cli": "^17.6.1",
+    "@commitlint/config-conventional": "^17.6.1",
     "@fastcoder/eslint-config-ts": "^1.0.6",
     "eslint": "^8.0.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.2.2",
     "typescript": "^4.7.4"
   },
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "add:husky-lint-staged": "husky add .husky/pre-commit 'npm run lint-staged'",
+    "add:husky-commitlint": "husky add .husky/commit-msg 'npm run commitlint'",
+    "lint-staged": "lint-staged",
+    "commitlint": "commitlint --config .commitlintrc.cjs --edit $1",
+    "husky:init": "npx husky-init",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
