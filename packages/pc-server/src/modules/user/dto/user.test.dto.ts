@@ -9,8 +9,8 @@ import {
   HttpException,
 } from '@nestjs/common';
 import type { Response } from 'express';
-import { BaseResponse } from '@/common/BaseResponse';
-import { BaseHttpException } from '@/common/BaseHttpException';
+import { BaseResponse } from '../../../common/response/BaseResponse';
+import { BaseHttpException } from '../../../common/response/BaseHttpException';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
