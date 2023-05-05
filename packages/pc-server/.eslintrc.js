@@ -3,7 +3,7 @@ module.exports = {
     "@fastcoder/eslint-config-ts"
   ],
   parserOptions: {
-    project: 'tsconfig.base.json',
+    project: 'tsconfig.json',
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },

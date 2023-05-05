@@ -3,8 +3,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 export function setupSwagger(app: INestApplication) {
   const options = new DocumentBuilder()
-    .setTitle('给它家小程序端服务端api文档')
-    .setDescription('给它家小程序端')
+    .setTitle('领悟服务端api文档')
+    .setDescription('领悟服务端（pc）')
     .setVersion('1.0.0')
     .addBearerAuth({ type: 'http', in: 'header', name: 'Authorization' })
     .build();
