@@ -20,8 +20,6 @@ export class ResponseInterceptor implements NestInterceptor {
     // const ctx = context.switchToHttp();
     // const request = ctx.getRequest();
     // 实现数据的遍历和转变
-    console.log('进入全局拦截器');
-
     return next.handle().pipe(
       map((data) => {
         if (data instanceof BaseResponse) {
