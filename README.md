@@ -36,8 +36,8 @@
 - [x] 加入eslint、husky、lint-staged、commitlint的仓库规范基建
 - [x] [完成项目基础结构与说明文档1.0](./docs//1.nestjs%E9%A1%B9%E7%9B%AE%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84%E4%B8%8E%E8%AF%B4%E6%98%8E.md)
 - [x] [完成pc-server中的一个请求打入时的程序流程图](./docs//2.%E4%B8%80%E4%B8%AA%E8%AF%B7%E6%B1%82%E5%BC%80%E5%A7%8B%E5%88%B0%E7%BB%93%E6%9D%9F%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84nestjs%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%9B%BE.md)
-- [ ] 完成项目配置&环境变量配置建设
-- [ ] 完成mysql与redis配置与应用建设
+- [x] 完成项目配置&环境变量配置建设
+- [x] 完成mysql与redis配置与应用建设
 - [ ] 完成jwt与鉴权模块建设
 - [ ] 其他...
 
