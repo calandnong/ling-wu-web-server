@@ -26,7 +26,7 @@
   * lint-staged
   * commitlint
   * monorepo
-  更多待补充...
+  * 更多待补充...
 
 ## 代办事项:
 
@@ -76,8 +76,11 @@ pnpm i
 pnpm run dev
 ```
 ### 访问地址（默认配置，需要更换可以在env文件中配置）
+
 [接口地址：http://127.0.0.1:3000](http://127.0.0.1:3000)
+
 [swagger地址：http://127.0.0.1:3000/swagger-docs](http://127.0.0.1:3000/swagger-docs)
+
 ### 其他
 待补充...
 

@@ -1,0 +1,16 @@
+# 数据库配置
+db:
+  type: 'mysql' # "mysql" | "mariadb"
+  host: '127.0.0.1'
+  port: 3306
+  username: 'xxx'
+  password: 'xxx'
+  database: 'lingwu'
+  autoLoadEntities: true
+  synchronize: false # 生产环境禁止打开
+
+# redis的配置
+redis:
+  host: '127.0.0.1'
+  port: 6379
+  # password: 'xxxx'
