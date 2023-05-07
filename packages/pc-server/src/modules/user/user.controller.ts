@@ -1,14 +1,17 @@
 import { Controller, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { UserService } from './user.service';
 
-@ApiTags('用户认证')
-@Controller('auth')
+@ApiTags('用户模块')
+@Controller('users')
 export class UserController {
-  @Post('/getToken')
-  getToken() {
-    return {
-      code: 200,
-      msg: '完成',
-    };
+  constructor(
+    private readonly userService: UserService,
+  ) {}
+
+  @ApiOperation({ summary: '获取用户列表' })
+  @Post('/getList')
+  getList() {
+    return this.userService.getList();
   }
 }
