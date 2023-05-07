@@ -95,4 +95,4 @@ pnpm run dev
 
 ## License
 
-[MIT](LICENSE) © coderPig
+[MIT](LICENSE) © calandnong
