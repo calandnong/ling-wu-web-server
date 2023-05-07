@@ -19,7 +19,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     console.log('进入全局异常过滤器...');
     console.error(exception);
-
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const defaultMessage = '错误解析异常';
@@ -43,10 +42,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
            */
           msg = JSON.stringify(exception);
         }
-        catch (errerMessage) {
+        catch (errorMessage) {
           // 设置默认信息
-          msg = `${defaultMessage}, ${errerMessage.message}`;
-          console.error(errerMessage);
+          msg = `${defaultMessage}, ${errorMessage.message}`;
+          console.error(errorMessage);
         }
       }
       // 赋值顺序：Error类的实例的message || 对象，且不是Error类或者其派生类的实例的尝试序列化 || 值类型
