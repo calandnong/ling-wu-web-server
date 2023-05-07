@@ -57,8 +57,21 @@ const envConfig = loadYaml(join(__dirname, '../../config', ENV_CONFIG_FILE_NAME)
 // 合并文件
 const mergePath = merge(merge(defaultConfig, defaultLocalConfig), merge(envConfig, envConfigLocal));
 
-export const useConfig = <T = unknown>() => {
-  return mergePath as T;
+export enum Config {
+  /**
+   * swagger配置
+   */
+  SWAGGER = 'swagger',
+}
+
+export const useConfig = () => {
+  return {
+    get<T>(key: Config) {
+      return mergePath[key] as T;
+    },
+  };
 };
 
-export default useConfig;
+export default () => {
+  return mergePath;
+};
