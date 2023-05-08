@@ -39,10 +39,13 @@
 - [x] 完成项目配置&环境变量配置建设
 - [x] 完成mysql与redis配置与应用建设
 - [ ] 完成jwt与鉴权模块建设
+- [ ] 完成docker配置
+- [ ] 完成模块拆分
+- [ ] 完成模块相关实体建立
+- [ ] 完成模块相关接口开发
 - [ ] 其他...
 
 ## 功能列表:
-
 待补充...
 
 ## 项目目录/文件介绍
@@ -66,11 +69,49 @@
 ### 运行环境准备
 - node >= 16.19.0
 - pnpm >= 6.32.20
+- mysql >= mysql8
+- redis
 
 ### 安装依赖
 ```bash
 pnpm i
 ```
+### 配置项目配置
+路径：packages/pc-server/config
+进入：config.development.yaml
+本地提前创建数据库: lingwu
+配置详细：
+```yaml
+# 数据库配置
+db:
+  type: 'mysql' # "mysql" | "mariadb"
+  host: '127.0.0.1'
+  port: 3306
+  username: 'xxx'
+  password: 'xxx'
+  database: 'lingwu' # 需要自己建库
+  autoLoadEntities: true
+  synchronize: true # 生产环境禁止打开
+
+# redis的配置
+redis:
+  host: '127.0.0.1'
+  port: 6379
+  # password: 'xxxx'
+
+# swagger的配置
+swagger:
+  open: true # 是否开启
+  path: 'swagger-docs' # 文档路径
+  title: '领悟服务端api文档' # swagger标题
+  description: '领悟服务端（pc）' # swagger描述
+  version: '1.0.0' # 接口版本
+  bearerAuth: # 认证配置
+    type: 'http'
+    in: 'header'
+    name: 'Authorization'
+```
+
 ### 运行项目
 ```bash
 pnpm run dev
@@ -86,6 +127,7 @@ pnpm run dev
 
 
 ## 共建指南
+
 
 待补充..
 
