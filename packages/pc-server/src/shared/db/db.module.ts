@@ -1,4 +1,3 @@
-import { resolve } from 'node:path';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
@@ -13,8 +12,6 @@ import { AppConfigModule } from '../../config/config.module';
         const dbConfig = configService.get('db');
         return {
           ...dbConfig,
-          entities: [resolve(__dirname, '../**/*.entity{.ts,.js}')],
-          autoLoadEntities: true,
         };
       },
     }),
