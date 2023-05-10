@@ -14,12 +14,12 @@
   },
   "scripts": {
     "dev": "pnpm run start:pc-server",
-    "start:pc-server": "pnpm run start --filter @ling-wu-server/pc-server",
+    "start:pc-server": "pnpm --filter @ling-wu-server/pc-server run start",
     "lint": "eslint .",
     "add:husky-lint-staged": "husky add .husky/pre-commit 'npm run lint-staged'",
     "add:husky-commitlint": "husky add .husky/commit-msg 'npm run commitlint'",
     "lint-staged": "lint-staged",
-    "commitlint": "commitlint --config .commitlintrc.cjs --edit $1",
+    "commitlint": "commitlint --config .commitlintrc.cjs --edit ${1}",
     "husky:init": "npx husky-init",
     "prepare": "husky install"
   },
