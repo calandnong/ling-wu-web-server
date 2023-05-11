@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { IsNotEmpty } from 'class-validator';
 import { BaseEntity } from '@/shared/entity/base.entity';
 
 @Entity('users')
@@ -11,11 +12,22 @@ export class User extends BaseEntity {
   id: number;
 
   @Column({
-    name: 'nick_name',
+    name: 'username',
     type: 'varchar',
     length: 255,
-    comment: '用户昵称',
+    comment: '用户名称',
     default: '',
   })
-  nickName: string;
+  @IsNotEmpty()
+  username: string;
+
+  @Column({
+    name: 'password',
+    type: 'varchar',
+    length: 255,
+    comment: '用户密码',
+    default: '',
+  })
+  @IsNotEmpty()
+  password: string;
 }

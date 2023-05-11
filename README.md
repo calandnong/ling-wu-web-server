@@ -74,6 +74,7 @@ pnpm i
 ### 运行项目
 ```bash
 pnpm run dev
+windows: pnpm --filter @ling-wu-server/pc-server run start
 ```
 ### 访问地址（默认配置，需要更换可以在env文件中配置）
 

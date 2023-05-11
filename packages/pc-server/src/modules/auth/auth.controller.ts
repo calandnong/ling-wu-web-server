@@ -3,6 +3,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { CodeDto } from './dto/code.dto';
 import { PhoneLoginDto } from './dto/phone-login.dto';
+import { SignUserDto } from './dto/signin-user.dto';
 import { Public } from '@/common/decorators/visit.decorator';
 import { UserTempMessage } from '@/shared/redis/dto/user-temp-redis.dto';
 
@@ -44,5 +45,17 @@ export class AuthController {
   @Post('/checkCode')
   checkCode(@Body() userTempMessage: UserTempMessage) {
     return userTempMessage;
+  }
+
+  @Post('/signin')
+  signin(@Body() dto: SignUserDto) {
+    const { username, password } = dto;
+    return this.authService.signin(username, password);
+  }
+
+  @Post('/signup')
+  signup(@Body() dto: SignUserDto) {
+    const { username, password } = dto;
+    return this.authService.signup(username, password);
   }
 }
