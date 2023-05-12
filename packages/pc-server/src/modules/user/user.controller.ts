@@ -18,6 +18,7 @@ export class UserController {
     return this.userService.getList();
   }
 
+  @ApiOperation({ summary: '用户注册' })
   @Post()
   addUser(@Body(CreateUserPipe) dto: CreateUserDto): any {
     const user = dto as User;

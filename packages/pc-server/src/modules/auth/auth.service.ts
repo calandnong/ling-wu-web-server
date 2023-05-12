@@ -16,8 +16,15 @@ export class AuthService {
     return null;
   }
 
-  async signin(username: string, password: string) {
+  /**
+   * @description 用户登录方法
+   * @param username 用户名
+   * @param password 用户密码
+   * @returns 当前登录用户token
+   */
+  async signIn(username: string, password: string) {
     const user = await this.userService.find(username);
+
     if (!user) {
       throw new ForbiddenException('用户不存在，请注册');
     }
@@ -32,7 +39,12 @@ export class AuthService {
     });
   }
 
-  async signup(username: string) {
+  /**
+   * @description 用户注册方法
+   * @param username 用户名
+   * @returns 注册的用户名
+   */
+  async signUp(username: string, password: string) {
     const user = await this.userService.find(username);
 
     if (user) {
@@ -41,6 +53,7 @@ export class AuthService {
 
     const res = await this.userService.create({
       username,
+      password,
     });
 
     return res;

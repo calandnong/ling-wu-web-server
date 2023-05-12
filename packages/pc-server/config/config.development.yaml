@@ -1,28 +1,28 @@
 # 数据库配置
 db:
-  type: 'mysql' # "mysql" | "mariadb"
-  host: '127.0.0.1'
+  type: "mysql" # "mysql" | "mariadb"
+  host: "127.0.0.1"
   port: 3306
-  username: 'root'
-  password: '123456'
-  database: 'lingwu'
+  username: "xxx"
+  password: "xxx"
+  database: "lingwu"
   autoLoadEntities: true
   synchronize: true # 生产环境禁止打开
 
 # redis的配置
 redis:
-  host: '127.0.0.1'
+  host: "127.0.0.1"
   port: 6379
   # password: 'xxxx'
 
 # swagger的配置
 swagger:
   open: true # 是否开启
-  path: 'swagger-docs' # 文档路径
-  title: '领悟服务端api文档' # swagger标题
-  description: '领悟服务端（pc）' # swagger描述
-  version: '1.0.0' # 接口版本
+  path: "swagger-docs" # 文档路径
+  title: "领悟服务端api文档" # swagger标题
+  description: "领悟服务端（pc）" # swagger描述
+  version: "1.0.0" # 接口版本
   bearerAuth: # 认证配置
-    type: 'http'
-    in: 'header'
-    name: 'Authorization'
+    type: "http"
+    in: "header"
+    name: "Authorization"

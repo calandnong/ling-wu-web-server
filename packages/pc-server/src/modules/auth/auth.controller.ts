@@ -47,15 +47,19 @@ export class AuthController {
     return userTempMessage;
   }
 
-  @Post('/signin')
-  signin(@Body() dto: SignUserDto) {
+  @Public()
+  @ApiOperation({ summary: '用户登录' })
+  @Post('/signIn')
+  signIn(@Body() dto: SignUserDto) {
     const { username, password } = dto;
-    return this.authService.signin(username, password);
+    return this.authService.signIn(username, password);
   }
 
-  @Post('/signup')
-  signup(@Body() dto: SignUserDto) {
+  @Public()
+  @ApiOperation({ summary: '用户注册' })
+  @Post('/signUp')
+  signUp(@Body() dto: SignUserDto) {
     const { username, password } = dto;
-    return this.authService.signup(username, password);
+    return this.authService.signUp(username, password);
   }
 }
