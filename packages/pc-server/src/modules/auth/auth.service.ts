@@ -1,15 +1,16 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
 import { UserService } from '../user/user.service';
+import { BaseResponse } from '@/common/response/BaseResponse';
 
 @Injectable()
 export class AuthService {
   constructor(private userService: UserService, private jwt: JwtService) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
+  async validateUser(username: string, pass: string): Promise<unknown> {
     const user = await this.userService.find(username);
-    if (user && user.password === pass) {
+    if (user?.password === pass) {
       const { ...result } = user;
       return result;
     }
@@ -26,12 +27,14 @@ export class AuthService {
     const user = await this.userService.find(username);
 
     if (!user) {
-      throw new ForbiddenException('用户不存在，请注册');
+      // throw new ForbiddenException('用户不存在，请注册');
+      return BaseResponse.toErrorJustMessage('用户不存在，请注册');
     }
     // 用户密码进行比对
     const isPasswordValid = await argon2.verify(user.password, password);
     if (!isPasswordValid) {
-      throw new ForbiddenException('用户名或者密码错误');
+      // throw new ForbiddenException('用户名或者密码错误');
+      return BaseResponse.toErrorJustMessage('用户名或者密码错误');
     }
     return await this.jwt.signAsync({
       username: user.username,
@@ -48,7 +51,8 @@ export class AuthService {
     const user = await this.userService.find(username);
 
     if (user) {
-      throw new ForbiddenException('用户已存在');
+      // throw new ForbiddenException('用户已存在');
+      return BaseResponse.toErrorJustMessage('用户已存在');
     }
 
     const res = await this.userService.create({
