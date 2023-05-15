@@ -27,7 +27,7 @@ export class User extends BaseEntity {
     type: 'varchar',
     length: 255,
     comment: '用户密码',
-    default: '',
+    select: false,
   })
   @IsNotEmpty()
   password: string;

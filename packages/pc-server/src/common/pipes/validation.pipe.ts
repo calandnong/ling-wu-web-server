@@ -6,14 +6,18 @@ import type {
 } from '@nestjs/common';
 import {
   Injectable,
-  HttpStatus,
 } from '@nestjs/common';
-import { BaseHttpException } from '@/common/response/BaseHttpException';
+import { ValidationException, ValidationExceptionCode } from '../exceptions/validation.exception';
+
+/**
+ * 校验数据的报错信息Map，TODO: 待设计
+ */
+export const VALIDATION_MESSAGE_MAP = {};
 
 @Injectable()
-export class ValidationPipe implements PipeTransform<any> {
+export class ValidationPipe implements PipeTransform {
   // value 是当前处理的参数，而 metatype 是属性的元类型
-  async transform(value: any, { metatype }: ArgumentMetadata) {
+  async transform(value: unknown, { metatype }: ArgumentMetadata) {
     console.log('进入全局管道...');
     if (!metatype || !this.toValidate(metatype)) {
       return value;
@@ -23,12 +27,13 @@ export class ValidationPipe implements PipeTransform<any> {
     // 验证该对象返回出错的数组
     const errors = await validate(object);
     if (errors.length > 0) {
+      console.log('errors', errors);
       // 将错误信息数组中的第一个内容返回给异常过滤器
       const errorMsg = errors.shift().constraints;
       console.log(Object.values(errorMsg));
       const messageArr = Object.values(errorMsg);
       const message = messageArr.join(',');
-      throw new BaseHttpException(message, HttpStatus.BAD_REQUEST);
+      throw new ValidationException(ValidationExceptionCode.INVALID_PARAMS, message);
     }
     return value;
   }

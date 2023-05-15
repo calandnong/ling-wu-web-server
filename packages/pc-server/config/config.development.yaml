@@ -1,3 +1,13 @@
+# 后端服务配置
+server:
+  port: 3000
+
+# jwt的配置
+jwt:
+  secret: 'xxx' # jwt私钥
+  signOptions:
+    expiresIn: '12h' # jwt过期时间
+
 # 数据库配置
 db:
   type: "mysql" # "mysql" | "mariadb"

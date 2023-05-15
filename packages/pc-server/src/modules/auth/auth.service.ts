@@ -1,21 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
 import { UserService } from '../user/user.service';
-import { BaseResponse } from '@/common/response/BaseResponse';
+import { AppJwtService } from '@/shared/jwt/jwt.service';
+import { AuthException, AuthExceptionCode } from '@/common/exceptions/auth.exception';
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService, private jwtService: JwtService) {}
-
-  async validateUser(username: string, pass: string): Promise<unknown> {
-    const user = await this.userService.find(username);
-    if (user?.password === pass) {
-      const { ...result } = user;
-      return result;
-    }
-    return null;
-  }
+  constructor(private userService: UserService, private appJwtService: AppJwtService) {}
 
   /**
    * @description 用户登录方法
@@ -27,19 +18,21 @@ export class AuthService {
     const user = await this.userService.find(username);
 
     if (!user) {
-      // throw new ForbiddenException('用户不存在，请注册');
-      return BaseResponse.toErrorJustMessage('用户不存在，请注册');
+      // 用户不存在，请注册
+      throw new AuthException(AuthExceptionCode.USER_NOT_FOUND_REGISTER);
     }
     // 用户密码进行比对
     const isPasswordValid = await argon2.verify(user.password, password);
     if (!isPasswordValid) {
-      // throw new ForbiddenException('用户名或者密码错误');
-      return BaseResponse.toErrorJustMessage('用户名或者密码错误');
+      // 用户名或密码错误
+      throw new AuthException(AuthExceptionCode.INVALID_USERNAME_OR_PASSWORD);
     }
 
-    const payload = { username: user.username, sub: user.id };
     return {
-      access_token: this.jwtService.sign(payload),
+      token: this.appJwtService.sign({
+        id: user.id,
+        username: user.username,
+      }),
     };
   }
 
@@ -52,15 +45,16 @@ export class AuthService {
     const user = await this.userService.find(username);
 
     if (user) {
-      // throw new ForbiddenException('用户已存在');
-      return BaseResponse.toErrorJustMessage('用户已存在');
+      // 用户已存在
+      throw new AuthException(AuthExceptionCode.USER_ALREADY_EXISTS);
     }
 
-    const res = await this.userService.create({
+    const userInfo = await this.userService.create({
       username,
       password,
     });
-
-    return res;
+    // 不返回password
+    delete userInfo.password;
+    return userInfo;
   }
 }

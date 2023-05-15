@@ -1,8 +1,8 @@
-import { resolve } from 'node:path';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
-import { AppConfigModule } from '../../config/config.module';
+import { AppConfigModule } from '@/config/config.module';
+import { Config, useConfigService } from '@/config/configuration';
 
 @Module({
   imports: [
@@ -10,12 +10,8 @@ import { AppConfigModule } from '../../config/config.module';
       imports: [AppConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        const dbConfig = configService.get('db');
-        return {
-          ...dbConfig,
-          entities: [resolve(__dirname, '../**/*.entity{.ts,.js}')],
-          autoLoadEntities: true,
-        };
+        return useConfigService(configService)
+          .get(Config.DB);
       },
     }),
   ],

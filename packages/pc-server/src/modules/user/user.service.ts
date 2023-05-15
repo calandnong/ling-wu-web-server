@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-
-// import * as argon2 from 'argon2';
 import { User } from '@/modules/user/user.entity';
-import { BaseResponse } from '@/common/response/BaseResponse';
 
 @Injectable()
 export class UserService {
@@ -13,9 +10,13 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  /**
+   * 查询用户列表
+   * @returns
+   */
   async getList() {
     const data = await this.userRepository.find();
-    return BaseResponse.toSuccess(data, '获取成功');
+    return data;
   }
 
   /**
@@ -24,7 +25,29 @@ export class UserService {
    * @returns 查找到的用户信息
    */
   find(username: string) {
-    return this.userRepository.findOne({ where: { username } });
+    return this
+      .userRepository
+      .findOne({
+        where: { username },
+        select: [
+          'id',
+          'username',
+          'password',
+          'createTime',
+          'updateTime',
+        ],
+      });
+  }
+
+  /**
+   * 根据用户id查找用户信息
+   */
+  findById(id: number) {
+    return this
+      .userRepository
+      .findOne({
+        where: { id },
+      });
   }
 
   /**
@@ -33,10 +56,8 @@ export class UserService {
    * @returns 注册的用户信息
    */
   async create(user: Partial<User>) {
-    const userTmp = this.userRepository.create(user);
-    // 对用户密码使用argon2加密
-    // userTmp.password = await argon2.hash(userTmp.password);
-    const res = await this.userRepository.save(userTmp);
-    return res;
+    const userTempInfo = this.userRepository.create(user);
+    const userInfo = await this.userRepository.save(userTempInfo);
+    return userInfo;
   }
 }
