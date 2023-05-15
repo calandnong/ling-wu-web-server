@@ -6,7 +6,7 @@ import { BaseResponse } from '@/common/response/BaseResponse';
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService, private jwt: JwtService) {}
+  constructor(private userService: UserService, private jwtService: JwtService) {}
 
   async validateUser(username: string, pass: string): Promise<unknown> {
     const user = await this.userService.find(username);
@@ -36,10 +36,11 @@ export class AuthService {
       // throw new ForbiddenException('用户名或者密码错误');
       return BaseResponse.toErrorJustMessage('用户名或者密码错误');
     }
-    return await this.jwt.signAsync({
-      username: user.username,
-      sub: user.id,
-    });
+
+    const payload = { username: user.username, sub: user.id };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 
   /**

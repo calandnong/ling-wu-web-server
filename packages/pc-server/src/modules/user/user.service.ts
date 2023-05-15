@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as argon2 from 'argon2';
+
+// import * as argon2 from 'argon2';
 import { User } from '@/modules/user/user.entity';
 import { BaseResponse } from '@/common/response/BaseResponse';
 
@@ -34,7 +35,7 @@ export class UserService {
   async create(user: Partial<User>) {
     const userTmp = this.userRepository.create(user);
     // 对用户密码使用argon2加密
-    userTmp.password = await argon2.hash(userTmp.password);
+    // userTmp.password = await argon2.hash(userTmp.password);
     const res = await this.userRepository.save(userTmp);
     return res;
   }

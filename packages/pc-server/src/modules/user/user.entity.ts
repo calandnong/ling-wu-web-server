@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
+import * as argon2 from 'argon2';
 import { BaseEntity } from '@/shared/entity/base.entity';
 
 @Entity('users')
@@ -30,4 +31,12 @@ export class User extends BaseEntity {
   })
   @IsNotEmpty()
   password: string;
+
+  /**
+   * 密码加密逻辑
+  */
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await argon2.hash(this.password);
+  }
 }
