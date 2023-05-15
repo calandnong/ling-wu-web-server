@@ -6,12 +6,13 @@ import {
   Injectable,
 } from '@nestjs/common';
 import type { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap } from 'rxjs';
+import type { BaseResponse } from '@/common/response/BaseResponse';
 import type { NestInterceptor } from '@/types';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
-  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
+  intercept(_: ExecutionContext, next: CallHandler): Observable<BaseResponse> {
     console.log('Before...');
     const now = Date.now();
     return next

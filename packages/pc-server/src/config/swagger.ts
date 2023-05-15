@@ -1,11 +1,10 @@
 import type { INestApplication } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { Config, useConfig } from './configuration';
-import type { SwaggerConfig } from '.';
+import { Config, useAppConfig } from './configuration';
 
 export function setupSwagger(app: INestApplication) {
-  const config = useConfig();
-  const swaggerConfig = config.get<SwaggerConfig>(Config.SWAGGER);
+  const config = useAppConfig(app);
+  const swaggerConfig = config.get(Config.SWAGGER);
   // 判断是否需要打开swagger
   if (!swaggerConfig.open) {
     return;

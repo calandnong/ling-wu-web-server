@@ -25,7 +25,7 @@ export class ResponseInterceptor implements NestInterceptor {
         if (data instanceof BaseResponse) {
           return data;
         }
-        return new BaseResponse(200, '请求成功', data);
+        return BaseResponse.toSuccessJustData(data);
       }),
     );
   }

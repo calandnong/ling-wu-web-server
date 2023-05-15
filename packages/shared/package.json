@@ -1,16 +1,40 @@
 {
-  "name": "shared",
+  "name": "@ling-wu-web-server/shared",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsx ./scripts/build.ts",
+    "build:rollup": "rollup -c",
+    "tsc": "tsc --noEmit"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    },
+    "./*": "./*"
   },
   "keywords": [],
-  "author": "",
+  "author": "calandnong",
   "license": "MIT",
-  "engines": {
-    "node": ">=16.19.0",
-    "pnpm": ">=6.32.20"
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "esbuild": "^0.17.19",
+    "esbuild-register": "^3.4.2",
+    "rollup": "^3.21.7",
+    "rollup-plugin-dts": "^5.3.0",
+    "rollup-plugin-esbuild": "^5.0.0",
+    "tsx": "^3.12.7"
   }
 }
