@@ -6,7 +6,6 @@ import { CodeDto } from './dto/code.dto';
 import { PhoneLoginDto } from './dto/phone-login.dto';
 import { SignUserDto } from './dto/signin-user.dto';
 import type { Auth } from './auth.types';
-import { UserTempMessage } from '@/shared/redis/dto/user-temp-redis.dto';
 import { SkipJWTCheck } from '@/common/decorators/jwt.decorator';
 
 @ApiTags('用户认证')
@@ -45,8 +44,8 @@ export class AuthController {
   @SkipJWTCheck()
   @ApiOperation({ summary: '检查验证码是否正确' })
   @Post('/checkCode')
-  checkCode(@Body() userTempMessage: UserTempMessage) {
-    return userTempMessage;
+  checkCode() {
+    return {};
   }
 
   @SkipJWTCheck()
