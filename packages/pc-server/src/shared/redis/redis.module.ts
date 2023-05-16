@@ -1,7 +1,8 @@
-import type { RedisModuleOptions, RedisClientOptions } from '@liaoliaots/nestjs-redis';
+import type { RedisModuleOptions } from '@liaoliaots/nestjs-redis';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { Module } from '@nestjs/common';
 import { ConfigService, ConfigModule } from '@nestjs/config';
+import { Config, useConfigService } from '@/config/configuration';
 
 @Module({
   imports: [
@@ -9,12 +10,8 @@ import { ConfigService, ConfigModule } from '@nestjs/config';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService): Promise<RedisModuleOptions> => {
-        const redisConfig = configService.get<RedisClientOptions>('redis');
-        return {
-          config: {
-            ...redisConfig,
-          },
-        };
+        return useConfigService(configService)
+          .get(Config.REDIS);
       },
     }, true),
   ],

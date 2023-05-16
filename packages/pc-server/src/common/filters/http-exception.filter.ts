@@ -9,8 +9,8 @@ import {
   HttpException,
 } from '@nestjs/common';
 import type { Response } from 'express';
+import { BaseException } from '../exceptions/base.exception';
 import { BaseResponse } from '../response/BaseResponse';
-import { BaseHttpException } from '../response/BaseHttpException';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -22,13 +22,16 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const defaultMessage = '错误解析异常';
-    const error = new BaseResponse(HttpStatus.INTERNAL_SERVER_ERROR);
-    let status = HttpStatus.OK;
+    let status = HttpStatus.INTERNAL_SERVER_ERROR;
+    const error = new BaseResponse(status);
     if (exception instanceof HttpException) {
-      error.code = exception.getStatus();
+      status = exception.getStatus();
+      error.code = status;
       error.message = exception.message;
-      if (exception instanceof BaseHttpException) {
-        status = exception.httpCode;
+      if (exception instanceof BaseException) {
+        const response = exception.getResponse();
+        error.code = response.code;
+        error.message = response.message;
       }
     }
     else {

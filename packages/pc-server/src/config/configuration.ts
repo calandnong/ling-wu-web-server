@@ -2,6 +2,12 @@ import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import * as yaml from 'js-yaml';
 import { merge } from 'lodash';
+import type { INestApplication } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import type { SecuritySchemeObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
+import type { RedisModuleOptions } from '@liaoliaots/nestjs-redis';
+import type { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import type { JwtModuleOptions } from '@nestjs/jwt';
 
 // 配置文件名称
 /**
@@ -62,6 +68,94 @@ export enum Config {
    * swagger配置
    */
   SWAGGER = 'swagger',
+  /**
+   * 服务配置
+   */
+  SERVER = 'server',
+  /**
+   * redis配置
+   */
+  REDIS = 'redis',
+  /**
+   * db配置
+   */
+  DB = 'db',
+  /**
+   * jwt配置
+   */
+  JWT = 'jwt',
+}
+
+export interface ServerConfig {
+  /**
+   * 端口
+   */
+  port: number;
+}
+
+export interface SwaggerConfig {
+  /**
+   * 是否开启
+   */
+  open: boolean;
+  /**
+   * 文档路径
+   */
+  path: string;
+  /**
+   * swagger标题
+   */
+  title: string;
+  /**
+   * swagger描述
+   */
+  description: string;
+  /**
+   * 接口版本
+   */
+  version: string;
+  /**
+   * 认证配置
+   */
+  bearerAuth: {
+    type: string;
+    in: string;
+    name: string;
+  } & SecuritySchemeObject;
+}
+
+export interface AppConfig {
+  [Config.SERVER]: ServerConfig;
+  [Config.SWAGGER]: SwaggerConfig;
+  [Config.REDIS]: RedisModuleOptions;
+  [Config.DB]: TypeOrmModuleOptions;
+  [Config.JWT]: JwtModuleOptions;
+}
+
+/**
+ * 使用app的配置模块
+ * @param app app实例
+ * @returns
+ */
+export function useAppConfig(app: INestApplication) {
+  const configService = app.get(ConfigService);
+
+  function get<Key extends Config>(key: Key) {
+    return configService.get<AppConfig[Key]>(key);
+  }
+
+  return {
+    get,
+  };
+}
+
+export function useConfigService(configService: ConfigService) {
+  function get<Key extends Config>(key: Key) {
+    return configService.get<AppConfig[Key]>(key);
+  }
+  return {
+    get,
+  };
 }
 
 export const useConfig = () => {
